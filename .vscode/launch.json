@@ -12,7 +12,7 @@
             "request": "launch",
             "mode": "auto",
             "console": "integratedTerminal",
-            "program": "${fileDirname}"
+            "program": "${workspaceFolder}"
         }
     ]
 }

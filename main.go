@@ -8,160 +8,255 @@ import (
 	"time"
 )
 
-func main() {
-	var choice string
-	var manageBook string
-	var searchBook string
-	var menu string
+var operationMain string
+var oprationManageBook string
+var operationSearchBook string
+var operationLast string
 
-Label1:
+func main() {
+
 	for {
+	operationMain:
 		printMain()
 		fmt.Print("입력: ")
-		fmt.Scanln(&choice)
+		fmt.Scanln(&operationMain)
 
-		switch choice {
+		switch operationMain {
 		case "1": //1. 도서관리
-		Label2:
+		oprationManageBook:
 			printBookManage()
 			fmt.Print("입력: ")
-			fmt.Scanln(&manageBook)
+			fmt.Scanln(&oprationManageBook)
 
-			switch manageBook {
+			switch oprationManageBook {
 			case "1": //1) 책 등록
-			Label3_1:
+			reregist:
 				newBook := book.GetBookInput()
 				book.PostBook(newBook)
+			operationPOST:
 				fmt.Println("[1.책 재등록, b.뒤로가기, m.메인메뉴, e.종료]")
-
 				fmt.Print("입력: ")
-				fmt.Scanln(&menu)
-				switch menu {
+				fmt.Scanln(&operationLast)
+
+				switch operationLast {
 				case "1":
-					goto Label3_1
+					goto reregist
 				case "b": // 뒤로가기
-					goto Label2
+					goto oprationManageBook
 				case "m": // 메인메뉴
-					goto Label1
+					break
 				case "e": // 종료
 					fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
 					time.Sleep(10 * time.Second)
 					os.Exit(0)
 				default:
 					fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-					goto Label3_1
+					goto operationPOST
 				}
 
 			case "2": //2) 책 조회
-			Label3_2:
+			operationSearchBook:
 				printBookSearch()
 				fmt.Print("입력: ")
-				fmt.Scanln(&searchBook)
-				switch searchBook {
+				fmt.Scanln(&operationSearchBook)
+
+				switch operationSearchBook {
 				case "1": // 2-1) 책 전체 조회
 					book.GetBookList()
-					fmt.Println("[b.뒤로가기, m.메인메뉴, e.종료]")
 
+				operationGET1:
+					fmt.Println("[b.뒤로가기, m.메인메뉴, e.종료]")
 					fmt.Print("입력: ")
-					fmt.Scanln(&menu)
-					switch menu {
+					fmt.Scanln(&operationLast)
+					switch operationLast {
 					case "b": // 뒤로가기
-						goto Label3_2
+						goto operationSearchBook
 					case "m": // 메인메뉴
-						goto Label1
+						break
 					case "e": // 종료
 						fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
 						time.Sleep(10 * time.Second)
 						os.Exit(0)
 					default:
 						fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-						goto Label3_2
+						goto operationGET1
 					}
 
 				case "2": // 2-2) 책 제목 조회
+				research1:
 					book.GetBookByTitle()
-					fmt.Println("[b.뒤로가기, m.메인메뉴, e.종료]")
-
+				operationGET2:
+					fmt.Println("[1.재검색, b.뒤로가기, m.메인메뉴, e.종료]")
 					fmt.Print("입력: ")
-					fmt.Scanln(&menu)
-
-					switch menu {
+					fmt.Scanln(&operationLast)
+					switch operationLast {
+					case "1": // 재검색
+						goto research1
 					case "b": // 뒤로가기
-						goto Label3_2
+						goto operationSearchBook
 					case "m": // 메인메뉴
-						goto Label1
+						break
 					case "e": // 종료
 						fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
 						time.Sleep(10 * time.Second)
 						os.Exit(0)
 					default:
 						fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-						goto Label3_2
+						goto operationGET2
 					}
 				case "3": // 2-3) 책 상세 조회
+				research2:
 					book.GetBookDetails()
-					fmt.Println("[b.뒤로가기, m.메인메뉴, e.종료]")
-
+				operationGET3:
+					fmt.Println("[1.재검색, b.뒤로가기, m.메인메뉴, e.종료]")
 					fmt.Print("입력: ")
-					fmt.Scanln(&menu)
-					switch menu {
+					fmt.Scanln(&operationLast)
+					switch operationLast {
+					case "1": // 재검색
+						goto research2
 					case "b": // 뒤로가기
-						goto Label2
+						goto operationSearchBook
 					case "m": // 메인메뉴
-						goto Label1
+						break
 					case "e": // 종료
 						fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
 						time.Sleep(10 * time.Second)
 						os.Exit(0)
 					default:
 						fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-						goto Label3_2
+						goto operationGET3
 					}
-					switch menu {
+				case "4": // 2-4) 대출자 정보 조회
+				searchUserAgain:
+					rent.GetUser()
+				operationUSER:
+					fmt.Println("[1.재검색, b.뒤로가기, m.메인메뉴, e.종료]")
+					fmt.Print("입력: ")
+					fmt.Scanln(&operationLast)
+					switch operationLast {
+					case "1": // 재검색
+						goto searchUserAgain
 					case "b": // 뒤로가기
-						goto Label2
+						goto operationSearchBook
 					case "m": // 메인메뉴
-						goto Label1
+						break
 					case "e": // 종료
 						fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
 						time.Sleep(10 * time.Second)
 						os.Exit(0)
 					default:
 						fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-						goto Label3_2
+						goto operationUSER
 					}
+				case "b": // 뒤로가기
+					goto oprationManageBook
+				case "m": // 메인메뉴
+					break
+				case "e": // 종료
+					fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
+					time.Sleep(10 * time.Second)
+					os.Exit(0)
+				default:
+					fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
+					goto operationSearchBook
 				}
 			case "3": // 3) 책 수정
 				fmt.Println("책 수정을 선택하셨습니다.")
 			case "4": // 4) 책 삭제
+			deleteAgain:
 				fmt.Println("책 삭제를 선택하셨습니다.")
+				book.DeleteBook()
+			operationDELETE:
+				fmt.Println("[1.재삭제, b.뒤로가기, m.메인메뉴, e.종료]")
+				fmt.Print("입력: ")
+				fmt.Scanln(&operationLast)
+
+				switch operationLast {
+				case "1": // 재삭제
+					goto deleteAgain
+				case "b": // 뒤로가기
+					goto oprationManageBook
+				case "m": // 메인메뉴
+					break
+				case "e": // 종료
+					fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
+					time.Sleep(10 * time.Second)
+					os.Exit(0)
+				default:
+					fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
+					goto operationDELETE
+				}
+
 			case "b": // 뒤로가기
-				goto Label1
+				goto operationMain
 			case "m": // 메인메뉴
-				goto Label1
+				break
 			case "e": // 종료
 				fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
 				time.Sleep(10 * time.Second)
 				os.Exit(0)
 			default:
 				fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-				goto Label2
+				goto oprationManageBook
 			}
 		case "2": // 2. 대출
+		rentAgain:
 			fmt.Println("대출 기능을 선택하셨습니다.")
 			rent.RentBook(rent.UserData{})
+		operationRENT:
+			fmt.Println("[1.재대출, b.뒤로가기, m.메인메뉴, e.종료]")
+			fmt.Print("입력: ")
+			fmt.Scanln(&operationLast)
+			switch operationLast {
+			case "1": // 재검색
+				goto rentAgain
+			case "b": // 뒤로가기
+				break
+			case "m": // 메인메뉴
+				break
+			case "e": // 종료
+				fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
+				time.Sleep(10 * time.Second)
+				os.Exit(0)
+			default:
+				fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
+				goto operationRENT
+			}
 		case "3": // 3. 반납
+		returnAgain:
 			fmt.Println("반납 기능을 선택하셨습니다.")
+			rent.ReturnBook()
+		operationRETURN:
+			fmt.Println("[1.재대출, b.뒤로가기, m.메인메뉴, e.종료]")
+			fmt.Print("입력: ")
+			fmt.Scanln(&operationLast)
+			switch operationLast {
+			case "1": // 재대출
+				goto returnAgain
+			case "b": // 뒤로가기
+				break
+			case "m": // 메인메뉴
+				break
+			case "e": // 종료
+				fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
+				time.Sleep(10 * time.Second)
+				os.Exit(0)
+			default:
+				fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
+				goto operationRETURN
+			}
+
 		case "b": // 뒤로가기
-			goto Label1
+			break
 		case "m": // 메인메뉴
-			goto Label1
+			break
 		case "e": // 종료
 			fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
 			time.Sleep(10 * time.Second)
 			os.Exit(0)
 		default:
 			fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
+			goto operationMain
 
 		}
 

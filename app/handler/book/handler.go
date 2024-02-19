@@ -16,6 +16,7 @@ func PostBook(book Book) {
 	// Post함수의 매개변수는 func http.Post(url string, contentType string, body io.Reader)
 	// io.Reader : 데이터를 읽을 수 있는 객체를 표현하는 인터페이스
 	// 요청 바디에 데이터를 보내기 위해서는 io.Reader형식으로 보내야함
+
 	// bytes.Buffer : book struct -> JSON으로 인코딩 -> io.Reader로 변환역할
 	var body bytes.Buffer
 	err := json.NewEncoder(&body).Encode(book)
@@ -32,8 +33,8 @@ func PostBook(book Book) {
 	defer res.Body.Close()
 
 	// JSON 디코딩
-	var newBook Book
-	err = json.NewDecoder(res.Body).Decode(&newBook)
+	var data []Book
+	err = json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
 		fmt.Println("JSON 디코딩 실패", err)
 	}
@@ -48,8 +49,7 @@ func PostBook(book Book) {
 }
 
 // 1-1) 책 등록 시 입력 기능 함수
-func GetBookInput() Book {
-	var newBook Book
+func GetBookInput() (newBook Book) {
 	//fmt.Scanln()을 사용하면 스페이스바를 입력하면 다음항목으로 넘어가버림
 	//때문에 한 줄 전체를 읽어서 처리하는 방법인 bufio 패키지의 NewScanner 함수를 사용
 	scanner := bufio.NewScanner(os.Stdin)
@@ -82,7 +82,8 @@ func GetBookList() {
 	fmt.Println("책 전체 조회를 선택하셨습니다.")
 
 	// GET요청 -> 조회 요청 생성 : 책 정보 전체
-	res, err := http.Get("http://localhost:8090/book/list")
+	getUrl := "http://localhost:8090/book/list"
+	res, err := http.Get(getUrl)
 	if err != nil {
 		fmt.Println("요청 생성 실패", err)
 	}
@@ -119,8 +120,8 @@ func GetBookByTitle() {
 	INPUT := scanner.Text()
 
 	// GET요청 -> 조회 요청 생성 : 입력값이 포함된 제목을 가진 책 정보
-	getURL := fmt.Sprintf("http://localhost:8090/book/search/" + INPUT)
-	res, err := http.Get(getURL)
+	getUrl := "http://localhost:8090/book/search/" + INPUT
+	res, err := http.Get(getUrl)
 	if err != nil {
 		fmt.Println("요청 생성 실패:", err)
 	}
@@ -157,8 +158,8 @@ func GetBookDetails() {
 	INPUT := scanner.Text()
 
 	// GET요청 -> 조회 요청 생성 : 입력값이 포함된 제목을 가진 책의 상세 정보
-	getURL := fmt.Sprintf("http://localhost:8090/book/search/" + INPUT + "/detail")
-	res, err := http.Get(getURL)
+	getUrl := "http://localhost:8090/book/search/" + INPUT + "/detail"
+	res, err := http.Get(getUrl)
 	if err != nil {
 		fmt.Println("요청 생성 실패:", err)
 	}
@@ -192,7 +193,7 @@ func PutBook() {
 
 // 4) 책 정보 삭제 기능 함수
 func DeleteBook() {
-	fmt.Println("삭제할 책 이름 입력 : ")
+	fmt.Println("삭제할 책 제목 입력 : ")
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	INPUT := scanner.Text()
