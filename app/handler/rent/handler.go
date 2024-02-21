@@ -23,7 +23,7 @@ func GetUser() {
 	getUrl := "http://localhost:8090/book/search/" + INPUT + "/user"
 	res, err := http.Get(getUrl)
 	if err != nil {
-		fmt.Println("요청 생성 실패:", err)
+		fmt.Println("요청 생성 실패:")
 	}
 	defer res.Body.Close()
 
@@ -31,7 +31,7 @@ func GetUser() {
 	var data []GetUserResponse
 	json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		fmt.Println("JSON 디코딩 실패", err)
+		fmt.Println("JSON 디코딩 실패")
 	}
 
 	// 조회 결과 출력
@@ -43,7 +43,7 @@ func GetUser() {
 	if res.StatusCode == http.StatusOK {
 		fmt.Println("대출자 정보 조회 성공")
 	} else {
-		fmt.Println("대출자 정보 조회 실패", res.Status)
+		fmt.Println("대출자 정보 조회 실패")
 	}
 
 }
@@ -59,14 +59,14 @@ func RentBook(userData UserData) {
 	putUrl := "http://localhost:8090/book/search/" + INPUT + "/rent"
 	req, err := http.NewRequest("PUT", putUrl, nil) //요청 생성
 	if err != nil {
-		fmt.Println("요청 생성 실패", err)
+		fmt.Println("요청 생성 실패")
 	}
 
 	// 대출 요청 실행
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		fmt.Println("요청 실행 실패", err)
+		fmt.Println("요청 실행 실패")
 	}
 	defer res.Body.Close()
 
@@ -100,7 +100,7 @@ func RentBook(userData UserData) {
 		postUrl := "http://localhost:8090/book/search/" + INPUT + "/rent/user"
 		res, err := http.Post(postUrl, "application/json", &body)
 		if err != nil {
-			fmt.Println("요청 생성 실패", err)
+			fmt.Println("요청 생성 실패")
 		}
 		defer res.Body.Close()
 
@@ -126,14 +126,14 @@ func ReturnBook() {
 	putUrl := "http://localhost:8090/book/search/" + INPUT + "/return"
 	req, err := http.NewRequest("PUT", putUrl, nil) //요청 생성
 	if err != nil {
-		fmt.Println("반납 실패", err)
+		fmt.Println("반납 실패")
 	}
 
 	// 반납 요청 실행
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		fmt.Println("반납 실패", err)
+		fmt.Println("반납 실패")
 	}
 	defer res.Body.Close()
 
@@ -148,13 +148,13 @@ func ReturnBook() {
 		deleteUrl := "http://localhost:8090/book/search/" + INPUT + "/return/user"
 		req, err := http.NewRequest("DELETE", deleteUrl, nil) //요청 생성
 		if err != nil {
-			fmt.Println("요청 생성 실패", err)
+			fmt.Println("요청 생성 실패")
 		}
 
 		// 반납 요청 실행
 		res, err := client.Do(req)
 		if err != nil {
-			fmt.Println("요청 실행 실패", err)
+			fmt.Println("요청 실행 실패")
 		}
 		defer res.Body.Close()
 
@@ -162,7 +162,7 @@ func ReturnBook() {
 		if res.StatusCode == http.StatusOK {
 			fmt.Println("반납 완료")
 		} else {
-			fmt.Println("반납 실패", res.StatusCode)
+			fmt.Println("반납 실패")
 		}
 	} else {
 		fmt.Println("반납 불가능 상태입니다.")

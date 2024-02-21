@@ -43,37 +43,51 @@ func PostBook(book Book) {
 	if res.StatusCode == http.StatusOK {
 		fmt.Println("등록 성공")
 	} else {
-		fmt.Println("등록 실패", res.Status)
+		fmt.Println("등록 실패", err)
 	}
 
 }
 
 // 1-1) 책 등록 시 입력 기능 함수
-func GetBookInput() (newBook Book) {
+func GetBookInput() (books []Book) {
 	//fmt.Scanln()을 사용하면 스페이스바를 입력하면 다음항목으로 넘어가버림
 	//때문에 한 줄 전체를 읽어서 처리하는 방법인 bufio 패키지의 NewScanner 함수를 사용
+	// var inputs []string
 	scanner := bufio.NewScanner(os.Stdin)
 
 	fmt.Println("책 등록을 선택하셨습니다.")
 	fmt.Println("등록할 책의 정보를 입력하세요:\n①제목/②저자/③테마/④출판사/⑤ISBN")
 	//1. Scan()을 사용하여 한 줄씩 읽어옴
 	//2. Text()를 사용하여 사용자 입력을 문자열로 가져옴
-	fmt.Print("①제목: ")
-	scanner.Scan()
-	newBook.Title = scanner.Text()
-	fmt.Print("②저자: ")
-	scanner.Scan()
-	newBook.Author = scanner.Text()
-	fmt.Print("③테마: ")
-	scanner.Scan()
-	newBook.Theme = scanner.Text()
-	fmt.Print("④출판사: ")
-	scanner.Scan()
-	newBook.Publisher = scanner.Text()
-	fmt.Print("⑤ISBN: ")
-	scanner.Scan()
-	newBook.ISBN = scanner.Text()
-	return newBook
+	// prompts := []string{"①제목", "②저자", "③테마", "④출판사", "⑤ISBN"}
+	for {
+		fmt.Print("책 정보 입력: ")
+		scanner.Scan()
+		INPUT := scanner.Text()
+		if INPUT == "b" {
+			break
+		}
+		var book Book
+		fmt.Sscanf(INPUT, "%s %s %s %s %s", &book.Title, &book.Author, &book.Theme, &book.Publisher, &book.ISBN)
+		books = append(books, book)
+
+	}
+
+	return books
+	// for _, prompt := range prompts {
+	// 	fmt.Printf("%s: ", prompt)
+	// 	scanner.Scan()
+	// 	inputs = append(inputs, scanner.Text())
+	// }
+
+	// if len(inputs) >= 5 {
+	// 	book.Title = inputs[0]
+	// 	book.Author = inputs[1]
+	// 	book.Theme = inputs[2]
+	// 	book.Publisher = inputs[3]
+	// 	book.ISBN = inputs[4]
+	// }
+	// return book
 }
 
 // 2) 책 조회
@@ -105,7 +119,7 @@ func GetBookList() {
 	if res.StatusCode == http.StatusOK {
 		fmt.Println("전체 조회 성공")
 	} else {
-		fmt.Println("전체 조회 실패", res.Status)
+		fmt.Println("전체 조회 실패")
 	}
 
 }
@@ -123,7 +137,7 @@ func GetBookByTitle() {
 	getUrl := "http://localhost:8090/book/search/" + INPUT
 	res, err := http.Get(getUrl)
 	if err != nil {
-		fmt.Println("요청 생성 실패:", err)
+		fmt.Println("요청 생성 실패:")
 	}
 	defer res.Body.Close()
 
@@ -131,7 +145,7 @@ func GetBookByTitle() {
 	var data []Book
 	json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		fmt.Println("JSON 디코딩 실패", err)
+		fmt.Println("JSON 디코딩 실패")
 	}
 
 	// 조회 결과 출력
@@ -143,7 +157,7 @@ func GetBookByTitle() {
 	if res.StatusCode == http.StatusOK {
 		fmt.Println("제목 조회 성공")
 	} else {
-		fmt.Println("제목 조회 실패", res.Status)
+		fmt.Println("제목 조회 실패")
 	}
 
 }
@@ -161,7 +175,7 @@ func GetBookDetails() {
 	getUrl := "http://localhost:8090/book/search/" + INPUT + "/detail"
 	res, err := http.Get(getUrl)
 	if err != nil {
-		fmt.Println("요청 생성 실패:", err)
+		fmt.Println("요청 생성 실패:")
 	}
 	defer res.Body.Close()
 
@@ -169,7 +183,7 @@ func GetBookDetails() {
 	var data []BookDetail
 	json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		fmt.Println("JSON 디코딩 실패", err)
+		fmt.Println("JSON 디코딩 실패")
 	}
 
 	// 조회 결과 출력
@@ -181,7 +195,7 @@ func GetBookDetails() {
 	if res.StatusCode == http.StatusOK {
 		fmt.Println("제목 조회 성공")
 	} else {
-		fmt.Println("제목 조회 실패", res.Status)
+		fmt.Println("제목 조회 실패")
 	}
 
 }
@@ -202,7 +216,7 @@ func DeleteBook() {
 	deleteUrl := "http://localhost:8090/book/search/" + INPUT + "/del"
 	req, err := http.NewRequest("DELETE", deleteUrl, nil)
 	if err != nil {
-		fmt.Println("요청 생성 실패", err)
+		fmt.Println("요청 생성 실패")
 		return
 	}
 
@@ -210,7 +224,7 @@ func DeleteBook() {
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		fmt.Println("요청 실행 실패", err)
+		fmt.Println("요청 실행 실패")
 	}
 	defer res.Body.Close()
 
@@ -218,6 +232,6 @@ func DeleteBook() {
 	if res.StatusCode == http.StatusOK {
 		fmt.Println("삭제 성공")
 	} else {
-		fmt.Println("삭제 실패", res.Status)
+		fmt.Println("삭제 실패")
 	}
 }
