@@ -74,20 +74,34 @@ func GetBookInput() (books []Book) {
 	}
 
 	return books
-	// for _, prompt := range prompts {
-	// 	fmt.Printf("%s: ", prompt)
-	// 	scanner.Scan()
-	// 	inputs = append(inputs, scanner.Text())
-	// }
+	/*
+	   func GetBookInput() (newBook Book) {
+	   	//fmt.Scanln()을 사용하면 스페이스바를 입력하면 다음항목으로 넘어가버림
+	   	//때문에 한 줄 전체를 읽어서 처리하는 방법인 bufio 패키지의 NewScanner 함수를 사용
+	   	scanner := bufio.NewScanner(os.Stdin)
 
-	// if len(inputs) >= 5 {
-	// 	book.Title = inputs[0]
-	// 	book.Author = inputs[1]
-	// 	book.Theme = inputs[2]
-	// 	book.Publisher = inputs[3]
-	// 	book.ISBN = inputs[4]
-	// }
-	// return book
+	   	fmt.Println("책 등록을 선택하셨습니다.")
+	   	fmt.Println("등록할 책의 정보를 입력하세요:\n①제목/②저자/③테마/④출판사/⑤ISBN")
+	   	//1. Scan()을 사용하여 한 줄씩 읽어옴
+	   	//2. Text()를 사용하여 사용자 입력을 문자열로 가져옴
+	   	fmt.Print("①제목: ")
+	   	scanner.Scan()
+	   	newBook.Title = scanner.Text()
+	   	fmt.Print("②저자: ")
+	   	scanner.Scan()
+	   	newBook.Author = scanner.Text()
+	   	fmt.Print("③테마: ")
+	   	scanner.Scan()
+	   	newBook.Theme = scanner.Text()
+	   	fmt.Print("④출판사: ")
+	   	scanner.Scan()
+	   	newBook.Publisher = scanner.Text()
+	   	fmt.Print("⑤ISBN: ")
+	   	scanner.Scan()
+	   	newBook.ISBN = scanner.Text()
+	   	return newBook
+	   }
+	*/
 }
 
 // 2) 책 조회
