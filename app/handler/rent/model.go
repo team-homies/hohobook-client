@@ -6,7 +6,7 @@ import "time"
 type UserData struct {
 	UserName  string `json:"user_name"`
 	UserPhone string `json:"user_phone"`
-	UserAge   string `json:"user_age"`
+	UserAge   int    `json:"user_age"`
 }
 
 // 대여자 정보 데이터 응답 구조체
@@ -17,7 +17,7 @@ type GetUserResponse struct {
 	ReturnDate time.Time `json:"return_date"`
 	UserName   string    `json:"user_name"`
 	UserPhone  string    `json:"user_phone"`
-	UserAge    string    `json:"user_age"`
+	UserAge    int       `json:"user_age"`
 }
 
 type Book struct {

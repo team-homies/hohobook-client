@@ -11,7 +11,7 @@ import (
 
 // 1. 도서관리
 // 1) 책 등록 기능 함수
-func PostBook(book Book) {
+func PostBook(book []Book) {
 
 	// Post함수의 매개변수는 func http.Post(url string, contentType string, body io.Reader)
 	// io.Reader : 데이터를 읽을 수 있는 객체를 표현하는 인터페이스
@@ -33,7 +33,7 @@ func PostBook(book Book) {
 	defer res.Body.Close()
 
 	// JSON 디코딩
-	var data []Book
+	var data map[string]interface{}
 	err = json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
 		fmt.Println("JSON 디코딩 실패", err)
@@ -49,59 +49,45 @@ func PostBook(book Book) {
 }
 
 // 1-1) 책 등록 시 입력 기능 함수
-func GetBookInput() (books []Book) {
+func GetBookInput() (books []Book, err error) {
 	//fmt.Scanln()을 사용하면 스페이스바를 입력하면 다음항목으로 넘어가버림
 	//때문에 한 줄 전체를 읽어서 처리하는 방법인 bufio 패키지의 NewScanner 함수를 사용
-	// var inputs []string
-	scanner := bufio.NewScanner(os.Stdin)
-
 	fmt.Println("책 등록을 선택하셨습니다.")
 	fmt.Println("등록할 책의 정보를 입력하세요:\n①제목/②저자/③테마/④출판사/⑤ISBN")
-	//1. Scan()을 사용하여 한 줄씩 읽어옴
-	//2. Text()를 사용하여 사용자 입력을 문자열로 가져옴
-	// prompts := []string{"①제목", "②저자", "③테마", "④출판사", "⑤ISBN"}
+
+	scanner := bufio.NewScanner(os.Stdin)
+
 	for {
-		fmt.Print("책 정보 입력: ")
+		fmt.Println("책 정보를 입력하려면 아무키를 누르세요\n책 내용을 그만 입력하려면 'q' 키를 눌러주세요")
 		scanner.Scan()
-		INPUT := scanner.Text()
-		if INPUT == "b" {
+		if scanner.Text() == "q" {
 			break
+
 		}
-		var book Book
-		fmt.Sscanf(INPUT, "%s %s %s %s %s", &book.Title, &book.Author, &book.Theme, &book.Publisher, &book.ISBN)
-		books = append(books, book)
+		var newBook Book
+
+		//1. Scan()을 사용하여 한 줄씩 읽어옴
+		//2. Text()를 사용하여 사용자 입력을 문자열로 가져옴
+		fmt.Print("①제목: ")
+		scanner.Scan()
+		newBook.Title = scanner.Text()
+		fmt.Print("②저자: ")
+		scanner.Scan()
+		newBook.Author = scanner.Text()
+		fmt.Print("③테마: ")
+		scanner.Scan()
+		newBook.Theme = scanner.Text()
+		fmt.Print("④출판사: ")
+		scanner.Scan()
+		newBook.Publisher = scanner.Text()
+		fmt.Print("⑤ISBN: ")
+		scanner.Scan()
+		newBook.ISBN = scanner.Text()
+
+		books = append(books, newBook)
 
 	}
-
-	return books
-	/*
-	   func GetBookInput() (newBook Book) {
-	   	//fmt.Scanln()을 사용하면 스페이스바를 입력하면 다음항목으로 넘어가버림
-	   	//때문에 한 줄 전체를 읽어서 처리하는 방법인 bufio 패키지의 NewScanner 함수를 사용
-	   	scanner := bufio.NewScanner(os.Stdin)
-
-	   	fmt.Println("책 등록을 선택하셨습니다.")
-	   	fmt.Println("등록할 책의 정보를 입력하세요:\n①제목/②저자/③테마/④출판사/⑤ISBN")
-	   	//1. Scan()을 사용하여 한 줄씩 읽어옴
-	   	//2. Text()를 사용하여 사용자 입력을 문자열로 가져옴
-	   	fmt.Print("①제목: ")
-	   	scanner.Scan()
-	   	newBook.Title = scanner.Text()
-	   	fmt.Print("②저자: ")
-	   	scanner.Scan()
-	   	newBook.Author = scanner.Text()
-	   	fmt.Print("③테마: ")
-	   	scanner.Scan()
-	   	newBook.Theme = scanner.Text()
-	   	fmt.Print("④출판사: ")
-	   	scanner.Scan()
-	   	newBook.Publisher = scanner.Text()
-	   	fmt.Print("⑤ISBN: ")
-	   	scanner.Scan()
-	   	newBook.ISBN = scanner.Text()
-	   	return newBook
-	   }
-	*/
+	return books, nil
 }
 
 // 2) 책 조회

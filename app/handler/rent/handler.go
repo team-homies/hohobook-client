@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strconv"
 )
 
 // 2) 책 조회
@@ -36,7 +37,7 @@ func GetUser() {
 
 	// 조회 결과 출력
 	for _, rent := range data {
-		fmt.Printf("| 대출자 명 : %s | 대출자 전화번호 : %s | 대출자 나이 : %s | 대출일시 : %v |\n", rent.UserName, rent.UserPhone, rent.UserAge, rent.RentDate)
+		fmt.Printf("| 대출자 명 : %s | 대출자 전화번호 : %s | 대출자 나이 : %d | 대출일시 : %v |\n", rent.UserName, rent.UserPhone, rent.UserAge, rent.RentDate)
 	}
 
 	// 조회 여부 확인
@@ -56,7 +57,7 @@ func RentBook(userData UserData) {
 	INPUT := scanner.Text()
 
 	// PUT요청 -> 대출가능 상태 변경 : 가능 -> 불가능
-	putUrl := "http://localhost:8090/book/search/" + INPUT + "/rent"
+	putUrl := "http://localhost:8090/book/rent/" + INPUT
 	req, err := http.NewRequest("PUT", putUrl, nil) //요청 생성
 	if err != nil {
 		fmt.Println("요청 생성 실패")
@@ -77,6 +78,7 @@ func RentBook(userData UserData) {
 
 	// 대출자 등록
 	if res.StatusCode == http.StatusOK {
+
 		scanner := bufio.NewScanner(os.Stdin)
 		fmt.Println("본인 정보를 입력하세요")
 
@@ -88,27 +90,37 @@ func RentBook(userData UserData) {
 		userData.UserPhone = scanner.Text()
 		fmt.Print("나이 입력 : ")
 		scanner.Scan()
-		userData.UserAge = scanner.Text()
+		UserAgeStr := scanner.Text()
+
+		age, _ := strconv.Atoi(UserAgeStr)
+		userData.UserAge = age
 
 		// JSON으로 인코딩 -> io.Reader로 변환
 		var body bytes.Buffer
 		err := json.NewEncoder(&body).Encode(userData)
 		if err != nil {
-			fmt.Println("JSON 인코딩 실패", err)
+			fmt.Println("JSON 인코딩 실패")
 		}
 		// POST요청 -> 등록 요청 생성 : 대출자 정보
-		postUrl := "http://localhost:8090/book/search/" + INPUT + "/rent/user"
+		postUrl := "http://localhost:8090/book/rent/" + INPUT + "/user"
 		res, err := http.Post(postUrl, "application/json", &body)
 		if err != nil {
 			fmt.Println("요청 생성 실패")
 		}
 		defer res.Body.Close()
 
+		// JSON 디코딩
+		var data map[string]interface{}
+		err = json.NewDecoder(res.Body).Decode(&data)
+		if err != nil {
+			fmt.Println("JSON 디코딩 실패")
+		}
+
 		// 대출 상태 확인
 		if res.StatusCode == http.StatusOK {
 			fmt.Println("대출 완료")
 		} else {
-			fmt.Println("대출 실패", res.StatusCode)
+			fmt.Println("대출 실패")
 		}
 	} else {
 		fmt.Println("대출 불가능 상태입니다.")
@@ -123,7 +135,7 @@ func ReturnBook() {
 	INPUT := scanner.Text()
 
 	// PUT요청 -> 대출가능 상태 변경 : 불가능 -> 가능
-	putUrl := "http://localhost:8090/book/search/" + INPUT + "/return"
+	putUrl := "http://localhost:8090/book/return/" + INPUT
 	req, err := http.NewRequest("PUT", putUrl, nil) //요청 생성
 	if err != nil {
 		fmt.Println("반납 실패")
@@ -145,7 +157,7 @@ func ReturnBook() {
 	// 대출자 정보 삭제
 	if res.StatusCode == http.StatusOK {
 		// DELETE요청 -> 삭제 요청 생성 : 반납자 정보
-		deleteUrl := "http://localhost:8090/book/search/" + INPUT + "/return/user"
+		deleteUrl := "http://localhost:8090/book/return/" + INPUT + "/user"
 		req, err := http.NewRequest("DELETE", deleteUrl, nil) //요청 생성
 		if err != nil {
 			fmt.Println("요청 생성 실패")

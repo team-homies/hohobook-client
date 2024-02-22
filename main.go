@@ -31,8 +31,9 @@ func main() {
 			switch oprationManageBook {
 			case "1": //1) 책 등록
 			reregist:
-				// books := book.GetBookInput()
-				// 	book.PostBook(book)
+				books, _ := book.GetBookInput()
+
+				book.PostBook(books)
 
 			operationPOST:
 				fmt.Println("[1.책 재등록, b.뒤로가기, m.메인메뉴, e.종료]")
