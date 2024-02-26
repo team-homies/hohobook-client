@@ -9,6 +9,9 @@ import (
 	"time"
 )
 
+// 과제
+// 생성된 util, config, constant, navigater 패키지를 완성하여 모든 로직에 적용
+
 var operationMain string
 var oprationManageBook string
 var operationSearchBook string
