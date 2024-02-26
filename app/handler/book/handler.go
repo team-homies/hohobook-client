@@ -5,6 +5,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"main/common/constant"
+	"main/common/util"
+	"main/config"
 	"net/http"
 	"os"
 )
@@ -21,14 +24,14 @@ func PostBook(book []Book) {
 	var body bytes.Buffer
 	err := json.NewEncoder(&body).Encode(book)
 	if err != nil {
-		fmt.Println("JSON 인코딩 실패", err)
+		constant.PrintMessage(constant.ErrInvalidJsonEncoding)
 	}
 
 	// POST 요청 -> 등록 요청 생성 : 책 정보
-	postUrl := "http://localhost:8090/book/registration"
+	postUrl := util.GenerateURL(config.GetInstance().PATH.POST.BookRegist)
 	res, err := http.Post(postUrl, "application/json", &body)
 	if err != nil {
-		fmt.Println("요청 생성 실패", err)
+		constant.PrintMessage(constant.ErrInvalidRequest, err)
 	}
 	defer res.Body.Close()
 
@@ -36,14 +39,14 @@ func PostBook(book []Book) {
 	var data map[string]interface{}
 	err = json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		fmt.Println("JSON 디코딩 실패", err)
+		constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
 	}
 
 	// 등록 여부 확인
 	if res.StatusCode == http.StatusOK {
-		fmt.Println("등록 성공")
+		constant.PrintMessage(constant.InfoSuccessCall, err)
 	} else {
-		fmt.Println("등록 실패", err)
+		constant.PrintMessage(constant.ErrFailCall, err)
 	}
 
 }

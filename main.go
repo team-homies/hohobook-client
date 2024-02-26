@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"main/app/handler/book"
 	"main/app/handler/rent"
+	"main/common/constant"
 	"os"
 	"time"
 )
@@ -22,14 +23,14 @@ func main() {
 		fmt.Scanln(&operationMain)
 
 		switch operationMain {
-		case "1": //1. 도서관리
+		case constant.OperationMain: //1. 도서관리
 		oprationManageBook:
 			printBookManage()
 			fmt.Print("입력: ")
 			fmt.Scanln(&oprationManageBook)
 
 			switch oprationManageBook {
-			case "1": //1) 책 등록
+			case constant.OperationRegist: //1) 책 등록
 			reregist:
 				books, _ := book.GetBookInput()
 
