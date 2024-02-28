@@ -2,32 +2,32 @@ package constant
 
 // 메인 메뉴
 const (
-	MainPage       string = "1000"
-	BookManagePage string = "1100"
-	BookRentPage   string = "1200"
-	BookReturnPage string = "1300"
+	MainPage       int = 1000
+	BookManagePage int = 1100
+	BookRentPage   int = 1200
+	BookReturnPage int = 1300
 )
 
 // 책 관리
 const (
-	BookManageRegistPage string = "1110"
-	BookManageSearchPage string = "1120"
-	BookManageUpdatePage string = "1130"
-	BookManageRemovePage string = "1140"
+	BookManageRegistPage int = 1110
+	BookManageSearchPage int = 1120
+	BookManageUpdatePage int = 1130
+	BookManageRemovePage int = 1140
 )
 
 //책 등록
 const (
-	BookManageInfoRegistPage   string = "1111"
-	BookManageDetailRegistPage string = "1112"
+	BookManageInfoRegistPage   int = 1111
+	BookManageDetailRegistPage int = 1112
 )
 
 // 책 검색
 const (
-	BookManageAllSearchPage          string = "1121"
-	BookManageTitleSearchPage        string = "1122"
-	BookManageDetailSearchPage       string = "1123"
-	BookManageRentUserInfoSearchPage string = "1124"
+	BookManageAllSearchPage          int = 1121
+	BookManageTitleSearchPage        int = 1122
+	BookManageDetailSearchPage       int = 1123
+	BookManageRentUserInfoSearchPage int = 1124
 )
 
 // 메뉴 마지막

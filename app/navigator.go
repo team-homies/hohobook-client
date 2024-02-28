@@ -5,7 +5,7 @@ import (
 	"main/common/constant"
 )
 
-func Navigate(operation string) (page []string, err error) {
+func Navigate(operation int) (page []string, err error) {
 	switch operation {
 	// 1000
 	case constant.MainPage:
@@ -36,7 +36,7 @@ func Navigate(operation string) (page []string, err error) {
 		{
 			page = append(page, "1.메인 -> 1.도서관리 -> 1.책 등록 -> 1.책 정보 등록 메뉴 입니다.")
 			page = append(page, "입력받은 책 정보를 등록하겠습니다.")
-			book.GetBookList()
+
 		}
 	// 1112
 	case constant.BookManageDetailRegistPage:
@@ -44,7 +44,7 @@ func Navigate(operation string) (page []string, err error) {
 			page = append(page, "1.메인 -> 1.도서관리 -> 1.책 등록 -> 2.책 상세 정보 등록 메뉴 입니다.")
 			page = append(page, "책 제목으로 해당 책의 상세 정보를 등록하겠습니다.")
 			page = append(page, "책 제목을 정확히 입력하고 Enter를 누르세요.")
-			// book.GetBookDetailList()
+			book.PostBookDetail()
 		}
 	// 1120
 	case constant.BookManageSearchPage:
@@ -59,6 +59,7 @@ func Navigate(operation string) (page []string, err error) {
 		{
 			page = append(page, "1.메인 -> 1.도서관리 -> 2.책 조회 -> 1.책 전체 조회 메뉴 입니다.")
 			page = append(page, "등록된 책들의 정보를 조회하겠습니다.")
+			book.GetBookList()
 		}
 		// 1122
 	case constant.BookManageTitleSearchPage:

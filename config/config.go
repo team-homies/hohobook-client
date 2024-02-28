@@ -71,7 +71,7 @@ func GetInstance() *CallInfo {
 	return instance
 }
 
-func INPUTInstance(INPUT string) *CallInfo {
+func InputInstance(INPUT string) *CallInfo {
 	if instance == nil {
 		instance = &CallInfo{
 			HOST: "http://localhost",
