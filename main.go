@@ -41,7 +41,7 @@ func main() {
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageInfoRegistPage)
 					switch constant.OprationBookManageInfoRegistPage {
-					case constant.OperationRegist:
+					case constant.OperationReplay:
 						goto BookManageInfoRegistPageLabel
 					case constant.OperationBack:
 						goto BookManageRegistPageLabel
@@ -62,7 +62,7 @@ func main() {
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageDetailRegistPage)
 					switch constant.OprationBookManageDetailRegistPage {
-					case constant.OperationRegist:
+					case constant.OperationReplay:
 						goto BookManageDetailRegistPageLabel
 					case constant.OperationBack:
 						goto BookManageRegistPageLabel
@@ -100,7 +100,7 @@ func main() {
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageAllSearchPage)
 					switch constant.OprationBookManageAllSearchPage {
-					case constant.OperationRegist:
+					case constant.OperationReplay:
 						goto BookManageAllSearchPageLabel
 					case constant.OperationBack:
 						goto BookManageSearchPageLabel
@@ -121,7 +121,7 @@ func main() {
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageTitleSearchPage)
 					switch constant.OprationBookManageTitleSearchPage {
-					case constant.OperationRegist:
+					case constant.OperationReplay:
 						goto BookManageTitleSearchPageLabel
 					case constant.OperationBack:
 						goto BookManageSearchPageLabel
@@ -142,7 +142,7 @@ func main() {
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageDetailSearchPage)
 					switch constant.OprationBookManageDetailSearchPage {
-					case constant.OperationRegist:
+					case constant.OperationReplay:
 						goto BookManageDetailSearchPageLabel
 					case constant.OperationBack:
 						goto BookManageSearchPageLabel
@@ -163,7 +163,7 @@ func main() {
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageRentUserInfoSearchPage)
 					switch constant.OprationBookManageRentUserInfoSearchPage {
-					case constant.OperationRegist:
+					case constant.OperationReplay:
 						goto BookManageRentUserInfoSearchPageLabel
 					case constant.OperationBack:
 						goto BookManageSearchPageLabel
@@ -248,7 +248,7 @@ func main() {
 			fmt.Print(app.Navigate(9993))
 			fmt.Scanln(&constant.OprationBookRentPage)
 			switch constant.OprationBookRentPage {
-			case constant.OperationRegist:
+			case constant.OperationReplay:
 				goto BookRentPageLabel
 			case constant.OperationBack:
 				goto MainLabel
@@ -269,7 +269,7 @@ func main() {
 			fmt.Print(app.Navigate(9993))
 			fmt.Scanln(&constant.OprationBookReturnPage)
 			switch constant.OprationBookReturnPage {
-			case constant.OperationRegist:
+			case constant.OperationReplay:
 				goto BookReturnPageLabel
 			case constant.OperationBack:
 				goto MainLabel
