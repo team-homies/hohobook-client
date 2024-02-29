@@ -24,14 +24,14 @@ func PostBook(book []Book) {
 	var body bytes.Buffer
 	err := json.NewEncoder(&body).Encode(book)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonEncoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonEncoding)
 	}
 
 	// POST 요청 -> 등록 요청 생성 : 책 정보
 	postUrl := util.GenerateURL(config.GetInstance().PATH.POST.BookRegist)
 	res, err := http.Post(postUrl, "application/json", &body)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 	}
 	defer res.Body.Close()
 
@@ -39,14 +39,14 @@ func PostBook(book []Book) {
 	var data map[string]interface{}
 	err = json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonDecoding)
 	}
 
 	// 등록 여부 확인
 	if res.StatusCode == http.StatusOK {
-		constant.PrintMessage(constant.InfoSuccessCall, err)
+		constant.PrintMessage(constant.InfoSuccessCall)
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 
 }
@@ -117,7 +117,7 @@ func PostBookDetail() (bookDetails []BookDetail, err error) {
 	var body bytes.Buffer
 	err = json.NewEncoder(&body).Encode(bookDetails)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonEncoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonEncoding)
 	}
 
 	// POST 요청 -> 등록 요청 생성 : 책 상세정보
@@ -125,7 +125,7 @@ func PostBookDetail() (bookDetails []BookDetail, err error) {
 	postUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.POST.BookRegistDetail)
 	res, err := http.Post(postUrl, "application/json", &body) //서버에 요청 보내고 결과값(등록이 완료되었습니다메세지)을 res에 담아 디코딩
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 	}
 	defer res.Body.Close()
 
@@ -133,14 +133,14 @@ func PostBookDetail() (bookDetails []BookDetail, err error) {
 	var data map[string]interface{}
 	err = json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonDecoding)
 	}
 
 	// 등록 여부 확인
 	if res.StatusCode == http.StatusOK {
-		constant.PrintMessage(constant.InfoSuccessCall, err)
+		constant.PrintMessage(constant.InfoSuccessCall)
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 	return
 
@@ -155,7 +155,7 @@ func GetBookList() {
 	getUrl := util.GenerateURL(config.GetInstance().PATH.GET.BookList)
 	res, err := http.Get(getUrl)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 	}
 	defer res.Body.Close()
 
@@ -163,7 +163,7 @@ func GetBookList() {
 	var data []Book
 	json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonDecoding)
 	}
 
 	// 조회 결과 출력
@@ -173,9 +173,9 @@ func GetBookList() {
 
 	// 조회 여부 확인
 	if res.StatusCode == http.StatusOK {
-		constant.PrintMessage(constant.InfoSuccessCall, err)
+		constant.PrintMessage(constant.InfoSuccessCall)
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 
 }
@@ -192,7 +192,7 @@ func GetBookByTitle() {
 	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.BookTitleSearch)
 	res, err := http.Get(getUrl)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 	}
 	defer res.Body.Close()
 
@@ -200,7 +200,7 @@ func GetBookByTitle() {
 	var data []Book
 	json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonDecoding)
 	}
 
 	// 조회 결과 출력
@@ -210,9 +210,9 @@ func GetBookByTitle() {
 
 	// 조회 여부 확인
 	if res.StatusCode == http.StatusOK {
-		constant.PrintMessage(constant.InfoSuccessCall, err)
+		constant.PrintMessage(constant.InfoSuccessCall)
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 
 }
@@ -229,7 +229,7 @@ func GetBookDetails() {
 	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.BookDetailSearch)
 	res, err := http.Get(getUrl)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 	}
 	defer res.Body.Close()
 
@@ -237,7 +237,7 @@ func GetBookDetails() {
 	var data []BookDetail
 	json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonDecoding)
 	}
 
 	// 조회 결과 출력
@@ -247,9 +247,9 @@ func GetBookDetails() {
 
 	// 조회 여부 확인
 	if res.StatusCode == http.StatusOK {
-		constant.PrintMessage(constant.InfoSuccessCall, err)
+		constant.PrintMessage(constant.InfoSuccessCall)
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 
 }
@@ -266,7 +266,7 @@ func GetBookChange() {
 	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.BookSearch_Update)
 	res, err := http.Get(getUrl)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 	}
 	defer res.Body.Close()
 
@@ -274,7 +274,7 @@ func GetBookChange() {
 	var data []Book
 	json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonDecoding)
 	}
 
 	// 조회 결과 출력
@@ -284,9 +284,9 @@ func GetBookChange() {
 
 	// 조회 여부 확인
 	if res.StatusCode == http.StatusOK {
-		constant.PrintMessage(constant.InfoSuccessCall, err)
+		constant.PrintMessage(constant.InfoSuccessCall)
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 }
 
@@ -318,7 +318,7 @@ func PutBook() (books Book, err error) {
 	var body bytes.Buffer
 	err = json.NewEncoder(&body).Encode(books)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonEncoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonEncoding)
 	}
 
 	// PUT요청 -> 수정
@@ -326,22 +326,22 @@ func PutBook() (books Book, err error) {
 	putUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.PUT.BookUpdate)
 	req, err := http.NewRequest("PUT", putUrl, &body)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 		return
 	}
 
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		constant.PrintMessage(constant.ClientDoFailCall, err)
+		constant.PrintMessage(constant.ClientDoFailCall)
 	}
 	defer res.Body.Close()
 
 	// 수정 여부 확인
 	if res.StatusCode == http.StatusOK {
-		constant.PrintMessage(constant.InfoSuccessCall, err)
+		constant.PrintMessage(constant.InfoSuccessCall)
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 	return
 }
@@ -357,7 +357,7 @@ func DeleteBook() {
 	deleteUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.DELETE.BookRemove)
 	req, err := http.NewRequest("DELETE", deleteUrl, nil)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 		return
 	}
 
@@ -365,14 +365,14 @@ func DeleteBook() {
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		constant.PrintMessage(constant.ClientDoFailCall, err)
+		constant.PrintMessage(constant.ClientDoFailCall)
 	}
 	defer res.Body.Close()
 
 	// 삭제 여부 확인
 	if res.StatusCode == http.StatusOK {
-		constant.PrintMessage(constant.InfoSuccessCall, err)
+		constant.PrintMessage(constant.InfoSuccessCall)
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 }

@@ -30,20 +30,31 @@ const (
 	BookManageRentUserInfoSearchPage int = 1124
 )
 
-// 메뉴 마지막
+// Case
 const (
-	LastPage = 9999
+	CaseExit    int = 9991
+	CaseDefault int = 9992
+	CaseReplay  int = 9993
 )
 
-// // 대출
-// const (
-// 	BookRentRegistPage = 1210
-// )
+// switch 목록
 
-// // 반납
-// const (
-// 	BookReturnRegistPage = 1310
-// )
+var OperationMain string                            //main
+var OprationManageBook string                       //1100
+var OprationBookManageRegistPage string             //1110
+var OprationBookManageInfoRegistPage string         //1111
+var OprationBookManageDetailRegistPage string       //1112
+var OprationBookManageSearchPage string             //1120
+var OprationBookManageAllSearchPage string          //1121
+var OprationBookManageTitleSearchPage string        //1122
+var OprationBookManageDetailSearchPage string       //1123
+var OprationBookManageRentUserInfoSearchPage string //1124
+var OprationBookManageUpdatePage string             //1130
+var OprationBookManageRemovePage string             //1140
+var OprationBookRentPage string                     //1200
+var OprationBookReturnPage string                   //1300
+var OperationSearchBook string                      //1400
+var OperationLast string
 
 // 사용자 오퍼레이션
 const (
@@ -67,4 +78,6 @@ const (
 	OperationTitleSearch    string = "2"
 	OperationDetailSearch   string = "3"
 	OperationUserInfoSearch string = "4"
+
+	OperationReplay string = "1"
 )

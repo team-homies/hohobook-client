@@ -13,5 +13,5 @@ const (
 )
 
 func PrintMessage(msg string, sub ...any) {
-	fmt.Println(msg, sub)
+	fmt.Println(msg)
 }

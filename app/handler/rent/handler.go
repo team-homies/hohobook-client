@@ -26,7 +26,7 @@ func GetUser() {
 	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.RentUserInfoSearch)
 	res, err := http.Get(getUrl)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 	}
 	defer res.Body.Close()
 
@@ -34,7 +34,7 @@ func GetUser() {
 	var data []GetUserResponse
 	json.NewDecoder(res.Body).Decode(&data)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonDecoding)
 	}
 
 	// 조회 결과 출력
@@ -44,9 +44,9 @@ func GetUser() {
 
 	// 조회 여부 확인
 	if res.StatusCode == http.StatusOK {
-		constant.PrintMessage(constant.InfoSuccessCall, err)
+		constant.PrintMessage(constant.InfoSuccessCall)
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 
 }
@@ -62,19 +62,19 @@ func RentBook(userData UserData) {
 	putUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.PUT.BookRent)
 	req, err := http.NewRequest("PUT", putUrl, nil) //요청 생성
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 	}
 
 	// 대출 요청 실행
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
+		constant.PrintMessage(constant.ErrInvalidJsonDecoding)
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode == http.StatusNotFound {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 		return
 	}
 
@@ -101,14 +101,14 @@ func RentBook(userData UserData) {
 		var body bytes.Buffer
 		err := json.NewEncoder(&body).Encode(userData)
 		if err != nil {
-			constant.PrintMessage(constant.ErrInvalidJsonEncoding, err)
+			constant.PrintMessage(constant.ErrInvalidJsonEncoding)
 		}
 		// POST요청 -> 등록 요청 생성 : 대출자 정보
 		// postUrl := "http://localhost:8090/book/rent/" + INPUT + "/user"
 		postUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.POST.RentUserInfoRegist)
 		res, err := http.Post(postUrl, "application/json", &body)
 		if err != nil {
-			constant.PrintMessage(constant.ErrInvalidRequest, err)
+			constant.PrintMessage(constant.ErrInvalidRequest)
 		}
 		defer res.Body.Close()
 
@@ -116,17 +116,17 @@ func RentBook(userData UserData) {
 		var data map[string]interface{}
 		err = json.NewDecoder(res.Body).Decode(&data)
 		if err != nil {
-			constant.PrintMessage(constant.ErrInvalidJsonDecoding, err)
+			constant.PrintMessage(constant.ErrInvalidJsonDecoding)
 		}
 
 		// 대출 상태 확인
 		if res.StatusCode == http.StatusOK {
-			constant.PrintMessage(constant.InfoSuccessCall, err)
+			constant.PrintMessage(constant.InfoSuccessCall)
 		} else {
-			constant.PrintMessage(constant.ErrFailCall, err)
+			constant.PrintMessage(constant.ErrFailCall)
 		}
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 }
 
@@ -141,19 +141,19 @@ func ReturnBook() {
 	putUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.PUT.BookReturn)
 	req, err := http.NewRequest("PUT", putUrl, nil) //요청 생성
 	if err != nil {
-		constant.PrintMessage(constant.ErrInvalidRequest, err)
+		constant.PrintMessage(constant.ErrInvalidRequest)
 	}
 
 	// 반납 요청 실행
 	client := &http.Client{}
 	res, err := client.Do(req)
 	if err != nil {
-		constant.PrintMessage(constant.ClientDoFailCall, err)
+		constant.PrintMessage(constant.ClientDoFailCall)
 	}
 	defer res.Body.Close()
 
 	if res.StatusCode == http.StatusNotFound {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 		return
 	}
 
@@ -164,23 +164,23 @@ func ReturnBook() {
 		deleteUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.DELETE.ReturnUserInfoRemove)
 		req, err := http.NewRequest("DELETE", deleteUrl, nil) //요청 생성
 		if err != nil {
-			constant.PrintMessage(constant.ErrInvalidRequest, err)
+			constant.PrintMessage(constant.ErrInvalidRequest)
 		}
 
 		// 반납 요청 실행
 		res, err := client.Do(req)
 		if err != nil {
-			constant.PrintMessage(constant.ClientDoFailCall, err)
+			constant.PrintMessage(constant.ClientDoFailCall)
 		}
 		defer res.Body.Close()
 
 		// 대출 상태 확인
 		if res.StatusCode == http.StatusOK {
-			constant.PrintMessage(constant.InfoSuccessCall, err)
+			constant.PrintMessage(constant.InfoSuccessCall)
 		} else {
-			constant.PrintMessage(constant.ErrFailCall, err)
+			constant.PrintMessage(constant.ErrFailCall)
 		}
 	} else {
-		constant.PrintMessage(constant.ErrFailCall, err)
+		constant.PrintMessage(constant.ErrFailCall)
 	}
 }

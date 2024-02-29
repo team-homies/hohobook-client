@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"main/app"
 	"main/app/handler/book"
 	"main/app/handler/rent"
 	"main/common/constant"
@@ -12,259 +13,283 @@ import (
 // 과제
 // 생성된 util, config, constant, navigater 패키지를 완성하여 모든 로직에 적용
 
-var operationMain string
-var oprationManageBook string
-var operationSearchBook string
-var operationLast string
-
 func main() {
-
 	for {
-	operationMain:
-		printMain()
-		fmt.Print("입력: ")
-		fmt.Scanln(&operationMain)
-
-		switch operationMain {
-		case constant.OperationMain: //1. 도서관리
-		oprationManageBook:
-			printBookManage()
-			fmt.Print("입력: ")
-			fmt.Scanln(&oprationManageBook)
-
-			switch oprationManageBook {
-			case constant.OperationRegist: //1) 책 등록
-			reregist:
-				books, _ := book.GetBookInput()
-
-				book.PostBook(books)
-
-			operationPOST:
-				fmt.Println("[1.책 재등록, b.뒤로가기, m.메인메뉴, e.종료]")
-				fmt.Print("입력: ")
-				fmt.Scanln(&operationLast)
-
-				switch operationLast {
-				case "1":
-					goto reregist
-				case "b": // 뒤로가기
-					goto oprationManageBook
-				case "m": // 메인메뉴
-					break
-				case "e": // 종료
-					fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-					time.Sleep(10 * time.Second)
+	MainLabel:
+		// 1000
+		fmt.Print(app.Navigate(1000))
+		fmt.Scanln(&constant.OperationMain)
+		switch constant.OperationMain {
+		case constant.OperationBook:
+		BookManageLabel:
+			// 1100
+			fmt.Print(app.Navigate(1100))
+			fmt.Scanln(&constant.OprationManageBook)
+			switch constant.OprationManageBook {
+			case constant.OperationRegist:
+			BookManageRegistPageLabel:
+				// 1110
+				fmt.Print(app.Navigate(1110))
+				fmt.Scanln(&constant.OprationBookManageRegistPage)
+				switch constant.OprationBookManageRegistPage {
+				case constant.OperationInfoRegist:
+				BookManageInfoRegistPageLabel:
+					// 1111
+					fmt.Print(app.Navigate(1111))
+					books, _ := book.GetBookInput()
+					book.PostBook(books)
+					fmt.Print(app.Navigate(9993))
+					fmt.Scanln(&constant.OprationBookManageInfoRegistPage)
+					switch constant.OprationBookManageInfoRegistPage {
+					case constant.OperationRegist:
+						goto BookManageInfoRegistPageLabel
+					case constant.OperationBack:
+						goto BookManageRegistPageLabel
+					case constant.OperationMenu:
+						goto MainLabel
+					case constant.OperationExit:
+						fmt.Print(app.Navigate(9991))
+						time.Sleep(5 * time.Second)
+						os.Exit(0)
+					default:
+						fmt.Print(app.Navigate(9992))
+					}
+				case constant.OperationDetailRegist:
+				BookManageDetailRegistPageLabel:
+					// 1112
+					fmt.Print(app.Navigate(1112))
+					book.PostBookDetail()
+					fmt.Print(app.Navigate(9993))
+					fmt.Scanln(&constant.OprationBookManageDetailRegistPage)
+					switch constant.OprationBookManageDetailRegistPage {
+					case constant.OperationRegist:
+						goto BookManageDetailRegistPageLabel
+					case constant.OperationBack:
+						goto BookManageRegistPageLabel
+					case constant.OperationMenu:
+						goto MainLabel
+					case constant.OperationExit:
+						fmt.Print(app.Navigate(9991))
+						time.Sleep(5 * time.Second)
+						os.Exit(0)
+					default:
+						fmt.Print(app.Navigate(9992))
+					}
+				case constant.OperationBack:
+					goto BookManageLabel
+				case constant.OperationMenu:
+					goto MainLabel
+				case constant.OperationExit:
+					fmt.Print(app.Navigate(9991))
+					time.Sleep(5 * time.Second)
 					os.Exit(0)
 				default:
-					fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-					goto operationPOST
+					fmt.Print(app.Navigate(9992))
 				}
-
-			case "2": //2) 책 조회
-			operationSearchBook:
-				printBookSearch()
-				fmt.Print("입력: ")
-				fmt.Scanln(&operationSearchBook)
-
-				switch operationSearchBook {
-				case "1": // 2-1) 책 전체 조회
+			case constant.OperationSearch:
+			BookManageSearchPageLabel:
+				// 1120
+				fmt.Print(app.Navigate(1120))
+				fmt.Scanln(&constant.OprationBookManageSearchPage)
+				switch constant.OprationBookManageSearchPage {
+				case constant.OperationAllSearch:
+				BookManageAllSearchPageLabel:
+					// 1121
+					fmt.Print(app.Navigate(1121))
 					book.GetBookList()
-
-				operationGET1:
-					fmt.Println("[b.뒤로가기, m.메인메뉴, e.종료]")
-					fmt.Print("입력: ")
-					fmt.Scanln(&operationLast)
-					switch operationLast {
-					case "b": // 뒤로가기
-						goto operationSearchBook
-					case "m": // 메인메뉴
-						break
-					case "e": // 종료
-						fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-						time.Sleep(10 * time.Second)
+					fmt.Print(app.Navigate(9993))
+					fmt.Scanln(&constant.OprationBookManageAllSearchPage)
+					switch constant.OprationBookManageAllSearchPage {
+					case constant.OperationRegist:
+						goto BookManageAllSearchPageLabel
+					case constant.OperationBack:
+						goto BookManageSearchPageLabel
+					case constant.OperationMenu:
+						goto MainLabel
+					case constant.OperationExit:
+						fmt.Print(app.Navigate(9991))
+						time.Sleep(5 * time.Second)
 						os.Exit(0)
 					default:
-						fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-						goto operationGET1
+						fmt.Print(app.Navigate(9992))
 					}
-
-				case "2": // 2-2) 책 제목 조회
-				research1:
+				case constant.OperationTitleSearch:
+				BookManageTitleSearchPageLabel:
+					// 1122
+					fmt.Print(app.Navigate(1122))
 					book.GetBookByTitle()
-				operationGET2:
-					fmt.Println("[1.재검색, b.뒤로가기, m.메인메뉴, e.종료]")
-					fmt.Print("입력: ")
-					fmt.Scanln(&operationLast)
-					switch operationLast {
-					case "1": // 재검색
-						goto research1
-					case "b": // 뒤로가기
-						goto operationSearchBook
-					case "m": // 메인메뉴
-						break
-					case "e": // 종료
-						fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-						time.Sleep(10 * time.Second)
+					fmt.Print(app.Navigate(9993))
+					fmt.Scanln(&constant.OprationBookManageTitleSearchPage)
+					switch constant.OprationBookManageTitleSearchPage {
+					case constant.OperationRegist:
+						goto BookManageTitleSearchPageLabel
+					case constant.OperationBack:
+						goto BookManageSearchPageLabel
+					case constant.OperationMenu:
+						goto MainLabel
+					case constant.OperationExit:
+						fmt.Print(app.Navigate(9991))
+						time.Sleep(5 * time.Second)
 						os.Exit(0)
 					default:
-						fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-						goto operationGET2
+						fmt.Print(app.Navigate(9992))
 					}
-				case "3": // 2-3) 책 상세 조회
-				research2:
+				case constant.OperationDetailSearch:
+				BookManageDetailSearchPageLabel:
+					// 1123
+					fmt.Print(app.Navigate(1123))
 					book.GetBookDetails()
-				operationGET3:
-					fmt.Println("[1.재검색, b.뒤로가기, m.메인메뉴, e.종료]")
-					fmt.Print("입력: ")
-					fmt.Scanln(&operationLast)
-					switch operationLast {
-					case "1": // 재검색
-						goto research2
-					case "b": // 뒤로가기
-						goto operationSearchBook
-					case "m": // 메인메뉴
-						break
-					case "e": // 종료
-						fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-						time.Sleep(10 * time.Second)
+					fmt.Print(app.Navigate(9993))
+					fmt.Scanln(&constant.OprationBookManageDetailSearchPage)
+					switch constant.OprationBookManageDetailSearchPage {
+					case constant.OperationRegist:
+						goto BookManageDetailSearchPageLabel
+					case constant.OperationBack:
+						goto BookManageSearchPageLabel
+					case constant.OperationMenu:
+						goto MainLabel
+					case constant.OperationExit:
+						fmt.Print(app.Navigate(9991))
+						time.Sleep(5 * time.Second)
 						os.Exit(0)
 					default:
-						fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-						goto operationGET3
+						fmt.Print(app.Navigate(9992))
 					}
-				case "4": // 2-4) 대출자 정보 조회
-				searchUserAgain:
+				case constant.OperationUserInfoSearch:
+				BookManageRentUserInfoSearchPageLabel:
+					// 1124
+					fmt.Print(app.Navigate(1124))
 					rent.GetUser()
-				operationUSER:
-					fmt.Println("[1.재검색, b.뒤로가기, m.메인메뉴, e.종료]")
-					fmt.Print("입력: ")
-					fmt.Scanln(&operationLast)
-					switch operationLast {
-					case "1": // 재검색
-						goto searchUserAgain
-					case "b": // 뒤로가기
-						goto operationSearchBook
-					case "m": // 메인메뉴
-						break
-					case "e": // 종료
-						fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-						time.Sleep(10 * time.Second)
+					fmt.Print(app.Navigate(9993))
+					fmt.Scanln(&constant.OprationBookManageRentUserInfoSearchPage)
+					switch constant.OprationBookManageRentUserInfoSearchPage {
+					case constant.OperationRegist:
+						goto BookManageRentUserInfoSearchPageLabel
+					case constant.OperationBack:
+						goto BookManageSearchPageLabel
+					case constant.OperationMenu:
+						goto MainLabel
+					case constant.OperationExit:
+						fmt.Print(app.Navigate(9991))
+						time.Sleep(5 * time.Second)
 						os.Exit(0)
 					default:
-						fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-						goto operationUSER
+						fmt.Print(app.Navigate(9992))
 					}
-				case "b": // 뒤로가기
-					goto oprationManageBook
-				case "m": // 메인메뉴
-					break
-				case "e": // 종료
-					fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-					time.Sleep(10 * time.Second)
+				case constant.OperationBack:
+					goto BookManageLabel
+				case constant.OperationMenu:
+					goto MainLabel
+				case constant.OperationExit:
+					fmt.Print(app.Navigate(9991))
+					time.Sleep(5 * time.Second)
 					os.Exit(0)
 				default:
-					fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-					goto operationSearchBook
+					fmt.Print(app.Navigate(9992))
 				}
-			case "3": // 3) 책 수정
-				fmt.Println("책 수정을 선택하셨습니다.")
-			case "4": // 4) 책 삭제
-			deleteAgain:
-				fmt.Println("책 삭제를 선택하셨습니다.")
+			case constant.OperationUpdate:
+			BookManageUpdatePageLabel:
+				// 1130
+				fmt.Print(app.Navigate(1130))
+				book.GetBookChange()
+				fmt.Print(app.Navigate(9993))
+				fmt.Scanln(&constant.OprationBookManageUpdatePage)
+				switch constant.OprationBookManageUpdatePage {
+				case constant.OperationReplay:
+					goto BookManageUpdatePageLabel
+				case constant.OperationBack:
+					goto BookManageLabel
+				case constant.OperationMenu:
+					goto MainLabel
+				case constant.OperationExit:
+					fmt.Print(app.Navigate(9991))
+					time.Sleep(5 * time.Second)
+					os.Exit(0)
+				default:
+					fmt.Print(app.Navigate(9992))
+				}
+			case constant.OperationRemove:
+			BookManageRemovePageLabel:
+				// 1140
+				fmt.Print(app.Navigate(1140))
 				book.DeleteBook()
-			operationDELETE:
-				fmt.Println("[1.재삭제, b.뒤로가기, m.메인메뉴, e.종료]")
-				fmt.Print("입력: ")
-				fmt.Scanln(&operationLast)
-
-				switch operationLast {
-				case "1": // 재삭제
-					goto deleteAgain
-				case "b": // 뒤로가기
-					goto oprationManageBook
-				case "m": // 메인메뉴
-					break
-				case "e": // 종료
-					fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-					time.Sleep(10 * time.Second)
+				fmt.Print(app.Navigate(9993))
+				fmt.Scanln(&constant.OprationBookManageRemovePage)
+				switch constant.OprationBookManageRemovePage {
+				case constant.OperationReplay:
+					goto BookManageRemovePageLabel
+				case constant.OperationBack:
+					goto BookManageLabel
+				case constant.OperationMenu:
+					goto MainLabel
+				case constant.OperationExit:
+					fmt.Print(app.Navigate(9991))
+					time.Sleep(5 * time.Second)
 					os.Exit(0)
 				default:
-					fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-					goto operationDELETE
+					fmt.Print(app.Navigate(9992))
 				}
-
-			case "b": // 뒤로가기
-				goto operationMain
-			case "m": // 메인메뉴
-				break
-			case "e": // 종료
-				fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-				time.Sleep(10 * time.Second)
+			case constant.OperationBack:
+				goto BookManageLabel
+			case constant.OperationMenu:
+				goto MainLabel
+			case constant.OperationExit:
+				fmt.Print(app.Navigate(9991))
+				time.Sleep(5 * time.Second)
 				os.Exit(0)
 			default:
-				fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-				goto oprationManageBook
+				fmt.Print(app.Navigate(9992))
 			}
-		case "2": // 2. 대출
-		rentAgain:
-			fmt.Println("대출 기능을 선택하셨습니다.")
+		case constant.OperationRent:
+		BookRentPageLabel:
+			// 1200
+			fmt.Print(app.Navigate(1200))
 			rent.RentBook(rent.UserData{})
-		operationRENT:
-			fmt.Println("[1.재대출, b.뒤로가기, m.메인메뉴, e.종료]")
-			fmt.Print("입력: ")
-			fmt.Scanln(&operationLast)
-			switch operationLast {
-			case "1": // 재검색
-				goto rentAgain
-			case "b": // 뒤로가기
-				break
-			case "m": // 메인메뉴
-				break
-			case "e": // 종료
-				fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-				time.Sleep(10 * time.Second)
+			fmt.Print(app.Navigate(9993))
+			fmt.Scanln(&constant.OprationBookRentPage)
+			switch constant.OprationBookRentPage {
+			case constant.OperationRegist:
+				goto BookRentPageLabel
+			case constant.OperationBack:
+				goto MainLabel
+			case constant.OperationMenu:
+				goto MainLabel
+			case constant.OperationExit:
+				fmt.Print(app.Navigate(9991))
+				time.Sleep(5 * time.Second)
 				os.Exit(0)
 			default:
-				fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-				goto operationRENT
+				fmt.Print(app.Navigate(9992))
 			}
-		case "3": // 3. 반납
-		returnAgain:
-			fmt.Println("반납 기능을 선택하셨습니다.")
+		case constant.OperationReturn:
+		BookReturnPageLabel:
+			// 1300
+			fmt.Print(app.Navigate(1300))
 			rent.ReturnBook()
-		operationRETURN:
-			fmt.Println("[1.재대출, b.뒤로가기, m.메인메뉴, e.종료]")
-			fmt.Print("입력: ")
-			fmt.Scanln(&operationLast)
-			switch operationLast {
-			case "1": // 재대출
-				goto returnAgain
-			case "b": // 뒤로가기
-				break
-			case "m": // 메인메뉴
-				break
-			case "e": // 종료
-				fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-				time.Sleep(10 * time.Second)
+			fmt.Print(app.Navigate(9993))
+			fmt.Scanln(&constant.OprationBookReturnPage)
+			switch constant.OprationBookReturnPage {
+			case constant.OperationRegist:
+				goto BookReturnPageLabel
+			case constant.OperationBack:
+				goto MainLabel
+			case constant.OperationMenu:
+				goto MainLabel
+			case constant.OperationExit:
+				fmt.Print(app.Navigate(9991))
+				time.Sleep(5 * time.Second)
 				os.Exit(0)
 			default:
-				fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-				goto operationRETURN
+				fmt.Print(app.Navigate(9992))
 			}
-
-		case "b": // 뒤로가기
-			break
-		case "m": // 메인메뉴
-			break
-		case "e": // 종료
-			fmt.Println("프로그램을 종료합니다.\n10초 뒤 종료됩니다.")
-			time.Sleep(10 * time.Second)
+		case constant.OperationExit:
+			fmt.Print(app.Navigate(9991))
+			time.Sleep(5 * time.Second)
 			os.Exit(0)
 		default:
-			fmt.Println("잘못된 입력입니다. 다시 시도하세요.")
-			goto operationMain
+			fmt.Print(app.Navigate(9992))
 
 		}
-
 	}
+
 }
