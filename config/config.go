@@ -23,7 +23,7 @@ type get struct {
 	BookTitleSearch    string
 	BookDetailSearch   string
 	RentUserInfoSearch string
-	BookSearch_Update  string
+	BookSearchUpdate   string
 }
 
 type post struct {
@@ -51,7 +51,7 @@ var (
 	once     sync.Once
 )
 
-func GetInstance() *CallInfo {
+func Instance() *CallInfo {
 	if instance == nil {
 		instance = &CallInfo{
 			HOST: "http://localhost",
@@ -82,7 +82,7 @@ func InputInstance(INPUT string) *CallInfo {
 					BookTitleSearch:    "/book/search/" + INPUT,
 					BookDetailSearch:   "/book/search/" + INPUT + "/detail",
 					RentUserInfoSearch: "/book/search/" + INPUT + "/user",
-					BookSearch_Update:  "/book/search/" + INPUT + "/change",
+					BookSearchUpdate:   "/book/search/" + INPUT + "/change",
 				},
 				POST: post{
 					METHOD:             "POST",

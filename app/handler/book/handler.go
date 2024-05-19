@@ -28,7 +28,7 @@ func PostBook(book []Book) {
 	}
 
 	// POST 요청 -> 등록 요청 생성 : 책 정보
-	postUrl := util.GenerateURL(config.GetInstance().PATH.POST.BookRegist)
+	postUrl := util.GenerateURL(config.Instance().PATH.POST.BookRegist)
 	res, err := http.Post(postUrl, "application/json", &body)
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
@@ -59,6 +59,7 @@ func GetBookInput() (books []Book, err error) {
 	scanner := bufio.NewScanner(os.Stdin)
 
 	for {
+		fmt.Println("[책 정보를 입력하려면 아무키를 누르세요]\n[책 내용을 그만 입력하려면 'q' 키를 눌러주세요]")
 		scanner.Scan()
 		if scanner.Text() == "q" {
 			break
@@ -122,7 +123,7 @@ func PostBookDetail() (bookDetails []BookDetail, err error) {
 
 	// POST 요청 -> 등록 요청 생성 : 책 상세정보
 	// postUrl := "http://localhost:8090/book/registration/" + INPUT + "/detail"
-	postUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.POST.BookRegistDetail)
+	postUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.POST.BookRegistDetail)
 	res, err := http.Post(postUrl, "application/json", &body) //서버에 요청 보내고 결과값(등록이 완료되었습니다메세지)을 res에 담아 디코딩
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
@@ -142,7 +143,7 @@ func PostBookDetail() (bookDetails []BookDetail, err error) {
 	} else {
 		constant.PrintMessage(constant.ErrFailCall)
 	}
-	return
+	return bookDetails, nil
 
 }
 
@@ -152,7 +153,7 @@ func GetBookList() {
 
 	// GET요청 -> 조회 요청 생성 : 책 정보 전체
 	// getUrl := "http://localhost:8090/book/list"
-	getUrl := util.GenerateURL(config.GetInstance().PATH.GET.BookList)
+	getUrl := util.GenerateURL(config.Instance().PATH.GET.BookList)
 	res, err := http.Get(getUrl)
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
@@ -189,7 +190,7 @@ func GetBookByTitle() {
 
 	// GET요청 -> 조회 요청 생성 : 입력값이 포함된 제목을 가진 책 정보
 	// getUrl := "http://localhost:8090/book/search/" + INPUT
-	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.BookTitleSearch)
+	getUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.GET.BookTitleSearch)
 	res, err := http.Get(getUrl)
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
@@ -226,7 +227,7 @@ func GetBookDetails() {
 
 	// GET요청 -> 조회 요청 생성 : 입력값이 포함된 제목을 가진 책의 상세 정보
 	// getUrl := "http://localhost:8090/book/search/" + INPUT + "/detail"
-	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.BookDetailSearch)
+	getUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.GET.BookDetailSearch)
 	res, err := http.Get(getUrl)
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
@@ -263,7 +264,7 @@ func GetBookChange() {
 
 	// GET 요청 -> 수정할 책 리스트 조회
 	// getUrl := "http://localhost:8090/book/search/" + INPUT + "/change"
-	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.BookSearch_Update)
+	getUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.GET.BookSearchUpdate)
 	res, err := http.Get(getUrl)
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
@@ -288,15 +289,18 @@ func GetBookChange() {
 	} else {
 		constant.PrintMessage(constant.ErrFailCall)
 	}
+
 }
 
 // 3-2) 책 정보 수정 기능 함수
-func PutBook() (books Book, err error) {
+func PutBook() {
 
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	INPUT := scanner.Text()
+	fmt.Println("[수정할 책의 정보를 입력하세요:]\n[①제목/②저자/③테마/④출판사/⑤ISBN]")
 
+	var books Book
 	//1. Scan()을 사용하여 한 줄씩 읽어옴
 	//2. Text()를 사용하여 사용자 입력을 문자열로 가져옴
 	fmt.Print("①제목: ")
@@ -316,18 +320,18 @@ func PutBook() (books Book, err error) {
 	books.ISBN = scanner.Text()
 
 	var body bytes.Buffer
-	err = json.NewEncoder(&body).Encode(books)
+	err := json.NewEncoder(&body).Encode(books)
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidJsonEncoding)
 	}
 
 	// PUT요청 -> 수정
 	// putUrl := "http://localhost:8090/book/search/" + INPUT + "/change"
-	putUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.PUT.BookUpdate)
+	putUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.PUT.BookUpdate)
 	req, err := http.NewRequest("PUT", putUrl, &body)
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
-		return
+
 	}
 
 	client := &http.Client{}
@@ -343,7 +347,6 @@ func PutBook() (books Book, err error) {
 	} else {
 		constant.PrintMessage(constant.ErrFailCall)
 	}
-	return
 }
 
 // 4) 책 정보 삭제 기능 함수
@@ -354,7 +357,7 @@ func DeleteBook() {
 
 	// DELETE요청 -> 삭제 요청 생성 : '입력값==제목'인 책 정보
 	// deleteUrl := "http://localhost:8090/book/search/" + INPUT + "/del"
-	deleteUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.DELETE.BookRemove)
+	deleteUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.DELETE.BookRemove)
 	req, err := http.NewRequest("DELETE", deleteUrl, nil)
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)

@@ -10,10 +10,11 @@ const (
 
 // 책 관리
 const (
-	BookManageRegistPage int = 1110
-	BookManageSearchPage int = 1120
-	BookManageUpdatePage int = 1130
-	BookManageRemovePage int = 1140
+	BookManageRegistPage       int = 1110
+	BookManageSearchPage       int = 1120
+	BookManageSearchUpdatePage int = 1130
+	BookManageUpdatePage1      int = 1131
+	BookManageRemovePage       int = 1140
 )
 
 //책 등록

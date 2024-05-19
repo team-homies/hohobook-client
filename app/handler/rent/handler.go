@@ -23,7 +23,7 @@ func GetUser() {
 
 	// GET요청 -> 조회 요청 생성 : 입력값이 포함된 제목을 가진 책의 상세 정보
 	// getUrl := "http://localhost:8090/book/search/" + INPUT + "/user"
-	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.RentUserInfoSearch)
+	getUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.GET.RentUserInfoSearch)
 	res, err := http.Get(getUrl)
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
@@ -59,7 +59,7 @@ func RentBook(userData UserData) {
 
 	// PUT요청 -> 대출가능 상태 변경 : 가능 -> 불가능
 	// putUrl := "http://localhost:8090/book/rent/" + INPUT
-	putUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.PUT.BookRent)
+	putUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.PUT.BookRent)
 	req, err := http.NewRequest("PUT", putUrl, nil) //요청 생성
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
@@ -105,7 +105,7 @@ func RentBook(userData UserData) {
 		}
 		// POST요청 -> 등록 요청 생성 : 대출자 정보
 		// postUrl := "http://localhost:8090/book/rent/" + INPUT + "/user"
-		postUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.POST.RentUserInfoRegist)
+		postUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.POST.RentUserInfoRegist)
 		res, err := http.Post(postUrl, "application/json", &body)
 		if err != nil {
 			constant.PrintMessage(constant.ErrInvalidRequest)
@@ -138,7 +138,7 @@ func ReturnBook() {
 
 	// PUT요청 -> 대출가능 상태 변경 : 불가능 -> 가능
 	// putUrl := "http://localhost:8090/book/return/" + INPUT
-	putUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.PUT.BookReturn)
+	putUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.PUT.BookReturn)
 	req, err := http.NewRequest("PUT", putUrl, nil) //요청 생성
 	if err != nil {
 		constant.PrintMessage(constant.ErrInvalidRequest)
@@ -161,7 +161,7 @@ func ReturnBook() {
 	if res.StatusCode == http.StatusOK {
 		// DELETE요청 -> 삭제 요청 생성 : 반납자 정보
 		// deleteUrl := "http://localhost:8090/book/return/" + INPUT + "/user"
-		deleteUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.DELETE.ReturnUserInfoRemove)
+		deleteUrl := util.InputGenerateURL(config.InputInstance(INPUT).PATH.DELETE.ReturnUserInfoRemove)
 		req, err := http.NewRequest("DELETE", deleteUrl, nil) //요청 생성
 		if err != nil {
 			constant.PrintMessage(constant.ErrInvalidRequest)

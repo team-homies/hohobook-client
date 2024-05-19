@@ -10,9 +10,6 @@ import (
 	"time"
 )
 
-// 과제
-// 생성된 util, config, constant, navigater 패키지를 완성하여 모든 로직에 적용
-
 func main() {
 	for {
 	MainLabel:
@@ -35,7 +32,7 @@ func main() {
 				case constant.OperationInfoRegist:
 				BookManageInfoRegistPageLabel:
 					// 1111
-					fmt.Print(app.Navigate(1111))
+					fmt.Println(app.Navigate(1111))
 					books, _ := book.GetBookInput()
 					book.PostBook(books)
 					fmt.Print(app.Navigate(9993))
@@ -192,6 +189,8 @@ func main() {
 				// 1130
 				fmt.Print(app.Navigate(1130))
 				book.GetBookChange()
+				fmt.Print(app.Navigate(1131))
+				book.PutBook()
 				fmt.Print(app.Navigate(9993))
 				fmt.Scanln(&constant.OprationBookManageUpdatePage)
 				switch constant.OprationBookManageUpdatePage {
