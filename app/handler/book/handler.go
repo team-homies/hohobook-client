@@ -122,7 +122,6 @@ func CreateBookDetail() (bookDetails []BookDetail, err error) {
 	}
 
 	// POST 요청 -> 등록 요청 생성 : 책 상세정보
-	// postUrl := "http://localhost:8090/book/registration/" + INPUT + "/detail"
 	postUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.POST.CreateBookDetail)
 	res, err := http.Post(postUrl, "application/json", &body) //서버에 요청 보내고 결과값(등록이 완료되었습니다메세지)을 res에 담아 디코딩
 	if err != nil {
@@ -152,7 +151,6 @@ func CreateBookDetail() (bookDetails []BookDetail, err error) {
 func FindBookList() {
 
 	// GET요청 -> 조회 요청 생성 : 책 정보 전체
-	// getUrl := "http://localhost:8090/book/list"
 	getUrl := util.GenerateURL(config.Instance().PATH.GET.FindBookList)
 	res, err := http.Get(getUrl)
 	if err != nil {
@@ -189,7 +187,6 @@ func FindBookByTitle() {
 	INPUT := scanner.Text()
 
 	// GET요청 -> 조회 요청 생성 : 입력값이 포함된 제목을 가진 책 정보
-	// getUrl := "http://localhost:8090/book/search/" + INPUT
 	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.FindBookInfoByTitle)
 	res, err := http.Get(getUrl)
 	if err != nil {
@@ -226,7 +223,6 @@ func FindBookDetailByTitle() {
 	INPUT := scanner.Text()
 
 	// GET요청 -> 조회 요청 생성 : 입력값이 포함된 제목을 가진 책의 상세 정보
-	// getUrl := "http://localhost:8090/book/search/" + INPUT + "/detail"
 	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.FindBookDetailByTitle)
 	res, err := http.Get(getUrl)
 	if err != nil {
@@ -263,7 +259,6 @@ func FindBookChangeByTitle() {
 	INPUT := scanner.Text()
 
 	// GET 요청 -> 수정할 책 리스트 조회
-	// getUrl := "http://localhost:8090/book/search/" + INPUT + "/change"
 	getUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.GET.FindBookChange)
 	res, err := http.Get(getUrl)
 	if err != nil {
@@ -326,7 +321,6 @@ func UpdateBookById() {
 	}
 
 	// PUT요청 -> 수정
-	//putUrl := "http://localhost:8090/book/search/" + INPUT + "/change"
 	putUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.PUT.UpdateBookInfoById)
 	req, err := http.NewRequest("PUT", putUrl, &body)
 	if err != nil {
@@ -356,7 +350,6 @@ func DeleteBookInfoByTitle() {
 	INPUT := scanner.Text()
 
 	// DELETE요청 -> 삭제 요청 생성 : '입력값==제목'인 책 정보
-	// deleteUrl := "http://localhost:8090/book/search/" + INPUT + "/del"
 	deleteUrl := util.GenerateURL(config.InputInstance(INPUT).PATH.DELETE.RemoveBook)
 	req, err := http.NewRequest("DELETE", deleteUrl, nil)
 	if err != nil {
