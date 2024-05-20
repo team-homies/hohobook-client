@@ -8,9 +8,3 @@ func GenerateURL(path string) (url string) {
 	port := config.Instance().PORT
 	return host + ":" + port + path
 }
-
-func InputGenerateURL(path string) (url string) {
-	host := config.InputInstance(path).HOST
-	port := config.InputInstance(path).PORT
-	return host + ":" + port + path
-}

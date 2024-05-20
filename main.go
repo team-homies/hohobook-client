@@ -33,8 +33,8 @@ func main() {
 				BookManageInfoRegistPageLabel:
 					// 1111
 					fmt.Println(app.Navigate(1111))
-					books, _ := book.GetBookInput()
-					book.PostBook(books)
+					books, _ := book.InputBookInfo()
+					book.CreateBookInfo(books)
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageInfoRegistPage)
 					switch constant.OprationBookManageInfoRegistPage {
@@ -55,7 +55,7 @@ func main() {
 				BookManageDetailRegistPageLabel:
 					// 1112
 					fmt.Print(app.Navigate(1112))
-					book.PostBookDetail()
+					book.CreateBookDetail()
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageDetailRegistPage)
 					switch constant.OprationBookManageDetailRegistPage {
@@ -93,7 +93,7 @@ func main() {
 				BookManageAllSearchPageLabel:
 					// 1121
 					fmt.Print(app.Navigate(1121))
-					book.GetBookList()
+					book.FindBookList()
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageAllSearchPage)
 					switch constant.OprationBookManageAllSearchPage {
@@ -114,7 +114,7 @@ func main() {
 				BookManageTitleSearchPageLabel:
 					// 1122
 					fmt.Print(app.Navigate(1122))
-					book.GetBookByTitle()
+					book.FindBookByTitle()
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageTitleSearchPage)
 					switch constant.OprationBookManageTitleSearchPage {
@@ -135,7 +135,7 @@ func main() {
 				BookManageDetailSearchPageLabel:
 					// 1123
 					fmt.Print(app.Navigate(1123))
-					book.GetBookDetails()
+					book.FindBookDetailByTitle()
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageDetailSearchPage)
 					switch constant.OprationBookManageDetailSearchPage {
@@ -156,7 +156,7 @@ func main() {
 				BookManageRentUserInfoSearchPageLabel:
 					// 1124
 					fmt.Print(app.Navigate(1124))
-					rent.GetUser()
+					rent.FindRentUser()
 					fmt.Print(app.Navigate(9993))
 					fmt.Scanln(&constant.OprationBookManageRentUserInfoSearchPage)
 					switch constant.OprationBookManageRentUserInfoSearchPage {
@@ -188,9 +188,9 @@ func main() {
 			BookManageUpdatePageLabel:
 				// 1130
 				fmt.Print(app.Navigate(1130))
-				book.GetBookChange()
+				book.FindBookChangeByTitle()
 				fmt.Print(app.Navigate(1131))
-				book.PutBook()
+				book.UpdateBookById()
 				fmt.Print(app.Navigate(9993))
 				fmt.Scanln(&constant.OprationBookManageUpdatePage)
 				switch constant.OprationBookManageUpdatePage {
@@ -211,7 +211,7 @@ func main() {
 			BookManageRemovePageLabel:
 				// 1140
 				fmt.Print(app.Navigate(1140))
-				book.DeleteBook()
+				book.DeleteBookInfoByTitle()
 				fmt.Print(app.Navigate(9993))
 				fmt.Scanln(&constant.OprationBookManageRemovePage)
 				switch constant.OprationBookManageRemovePage {

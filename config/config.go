@@ -18,32 +18,32 @@ type path struct {
 }
 
 type get struct {
-	METHOD             string
-	BookList           string
-	BookTitleSearch    string
-	BookDetailSearch   string
-	RentUserInfoSearch string
-	BookSearchUpdate   string
+	METHOD                string
+	FindBookList          string
+	FindBookInfoByTitle   string
+	FindBookDetailByTitle string
+	FindRentUser          string
+	FindBookChange        string
 }
 
 type post struct {
-	METHOD             string
-	BookRegist         string
-	BookRegistDetail   string
-	RentUserInfoRegist string
+	METHOD                string
+	CreateBookInfo        string
+	CreateBookDetail      string
+	CreateUserInfoForRent string
 }
 
 type put struct {
-	METHOD     string
-	BookUpdate string
-	BookRent   string
-	BookReturn string
+	METHOD             string
+	UpdateBookInfoById string
+	UpdateIsused       string
+	ReturnBook         string
 }
 
 type delete struct {
-	METHOD               string
-	BookRemove           string
-	ReturnUserInfoRemove string
+	METHOD                  string
+	RemoveBook              string
+	RemoveUserInfoForReturn string
 }
 
 var (
@@ -52,56 +52,60 @@ var (
 )
 
 func Instance() *CallInfo {
-	if instance == nil {
-		instance = &CallInfo{
-			HOST: "http://localhost",
-			PORT: "8090",
-			PATH: path{
-				GET: get{
-					METHOD:   "GET",
-					BookList: "/book/list",
+	once.Do(func() {
+		if instance == nil {
+			instance = &CallInfo{
+				HOST: "http://localhost",
+				PORT: "8090",
+				PATH: path{
+					GET: get{
+						METHOD:       "GET",
+						FindBookList: "/book/list",
+					},
+					POST: post{
+						METHOD:         "POST",
+						CreateBookInfo: "/book/registration",
+					},
 				},
-				POST: post{
-					METHOD:     "POST",
-					BookRegist: "/book/registration",
-				},
-			},
+			}
 		}
-	}
+	})
 	return instance
 }
 
-func InputInstance(INPUT string) *CallInfo {
-	if instance == nil {
-		instance = &CallInfo{
-			HOST: "http://localhost",
-			PORT: "8090",
-			PATH: path{
-				GET: get{
-					METHOD:             "GET",
-					BookTitleSearch:    "/book/search/" + INPUT,
-					BookDetailSearch:   "/book/search/" + INPUT + "/detail",
-					RentUserInfoSearch: "/book/search/" + INPUT + "/user",
-					BookSearchUpdate:   "/book/search/" + INPUT + "/change",
-				},
-				POST: post{
-					METHOD:             "POST",
-					BookRegistDetail:   "/book/registration/" + INPUT + "/detail",
-					RentUserInfoRegist: "/book/rent/" + INPUT + "/user",
-				},
-				PUT: put{
-					METHOD:     "PUT",
-					BookUpdate: "/book/search/" + INPUT + "/change",
-					BookRent:   "/book/rent/" + INPUT,
-					BookReturn: "/book/return/" + INPUT,
-				},
-				DELETE: delete{
-					METHOD:               "DELETE",
-					BookRemove:           "/book/search/" + INPUT + "/del",
-					ReturnUserInfoRemove: "/book/return/" + INPUT + "/user",
-				},
+func InputInstance(query string) *CallInfo {
+	// once.Do(func() {
+	// 	if instance == nil {
+	instance = &CallInfo{
+		HOST: "http://localhost",
+		PORT: "8090",
+		PATH: path{
+			GET: get{
+				METHOD:                "GET",
+				FindBookInfoByTitle:   "/book/search/" + query,
+				FindBookDetailByTitle: "/book/search/" + query + "/detail",
+				FindRentUser:          "/book/search/" + query + "/user",
+				FindBookChange:        "/book/search/" + query + "/change",
 			},
-		}
+			POST: post{
+				METHOD:                "POST",
+				CreateBookDetail:      "/book/registration/" + query + "/detail",
+				CreateUserInfoForRent: "/book/rent/" + query + "/user",
+			},
+			PUT: put{
+				METHOD:             "PUT",
+				UpdateBookInfoById: "/book/search/" + query + "/change",
+				UpdateIsused:       "/book/rent/" + query,
+				ReturnBook:         "/book/return/" + query,
+			},
+			DELETE: delete{
+				METHOD:                  "DELETE",
+				RemoveBook:              "/book/search/" + query + "/del",
+				RemoveUserInfoForReturn: "/book/return/" + query + "/user",
+			},
+		},
 	}
+	// }
+	// })
 	return instance
 }
